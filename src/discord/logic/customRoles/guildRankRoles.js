@@ -3,7 +3,8 @@ const { readConfig, getGuild, toggleConfig, writeConfig } = require('../../../he
 
 const invalidRole = createError('**That\'s not a valid Role ID!**');
 
-async function getGuildRanks() {
+async function getGuildRanks()
+{
     const config = readConfig();
     const guild = await getGuild('guild', config.guild);
 
@@ -11,15 +12,17 @@ async function getGuildRanks() {
     return guildRanks;
 }
 
-async function createGuildRankRolesMsg() {
+async function createGuildRankRolesMsg()
+{
     const guildRanks = await getGuildRanks();
     const config = readConfig();
 
-    const roles = guildRanks.map((rank, index) => {
+    const roles = guildRanks.map((rank, index) =>
+    {
         const rankNum = index + 1;
         const roleKey = `guildRank${rankNum}Role`;
 
-        if (config.guildRankRoles[roleKey]) return `${rankNum}. ${rank} - <@&${config.guildRankRoles[roleKey]}>`;
+        if (config.guildRankRoles[roleKey]) { return `${rankNum}. ${rank} - <@&${config.guildRankRoles[roleKey]}>`; }
         return `${rankNum}. ${rank}`;
     }).join('\n');
 
@@ -29,11 +32,13 @@ async function createGuildRankRolesMsg() {
     });
 }
 
-async function createButtons() {
+async function createButtons()
+{
     const guildRanks = await getGuildRanks();
     const config = readConfig();
 
-    const buttons = guildRanks.map((rank, index) => {
+    const buttons = guildRanks.map((rank, index) =>
+    {
         const id = `guildRank${index + 1}`;
         const style = config.features[`guildRank${index + 1}Toggle`] ? 'Green' : 'Red';
 
@@ -43,7 +48,8 @@ async function createButtons() {
     return createRow(buttons);
 }
 
-function back() {
+function back()
+{
     const config = readConfig();
     const buttons = createRow([
         { id: 'customRoles', label: 'Back', style: 'Gray' },
@@ -53,11 +59,13 @@ function back() {
     return buttons;
 }
 
-async function guildRankRoles(interaction) {
+async function guildRankRoles(interaction)
+{
     await interaction.update({ embeds: [await createGuildRankRolesMsg()], components: [await createButtons(), back()] });
 }
 
-async function guildRanksToggle(interaction) {
+async function guildRanksToggle(interaction)
+{
     const config = readConfig();
     const rankNum = interaction.customId;
     const guildRanks = await getGuildRanks();
@@ -65,7 +73,8 @@ async function guildRanksToggle(interaction) {
     const toggleKey = `${rankNum}Toggle`;
     const roleKey = `${rankNum}Role`;
 
-    if (interaction.isButton() && !config.features[toggleKey]) {
+    if (interaction.isButton() && !config.features[toggleKey])
+    {
         const modal = createForm({
             id: rankNum,
             title: `Set ${rankName}`,
@@ -81,10 +90,11 @@ async function guildRanksToggle(interaction) {
         return;
     }
 
-    if (interaction.isModalSubmit()) {
+    if (interaction.isModalSubmit())
+    {
         const input = interaction.fields.getTextInputValue(`${rankNum}Input`);
         const role = interaction.guild.roles.cache.get(input);
-        if (!role) return interaction.reply({ embeds: [invalidRole], ephemeral: true });
+        if (!role) { return interaction.reply({ embeds: [invalidRole], ephemeral: true }); }
 
         config.guildRankRoles[roleKey] = input;
         writeConfig(config);
@@ -93,13 +103,15 @@ async function guildRanksToggle(interaction) {
         return;
     }
 
-    if (config.features[toggleKey]) {
+    if (config.features[toggleKey])
+    {
         await toggleConfig(`features.${toggleKey}`);
         await guildRankRoles(interaction);
     }
 }
 
-async function guildRankRolesToggle(interaction) {
+async function guildRankRolesToggle(interaction)
+{
     await toggleConfig('features.guildRankRolesToggle');
     await guildRankRoles(interaction);
 }

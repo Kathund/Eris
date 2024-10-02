@@ -7,10 +7,12 @@ const { Events } = require('discord.js');
 module.exports =
 [{
     name: Events.ClientReady,
-    async execute(client) {
+    async execute(client)
+    {
         const config = readConfig();
 
-        cron.schedule('1 22 * * *', async() => { // 00:01 PST every day
+        cron.schedule('1 22 * * *', async() =>
+        { // 00:01 PST every day
             await logGXP();
 
             const channel = await client.channels.fetch(config.logsChannel);

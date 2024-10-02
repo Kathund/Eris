@@ -1,7 +1,8 @@
 const { createMsg, createRow } = require('../../../helper/builder.js');
 const { readConfig } = require('../../../helper/utils.js');
 
-async function credits(interaction) {
+async function credits(interaction)
+{
     const config = readConfig();
     const creditsMsg = createMsg({
         icon: config.icon,

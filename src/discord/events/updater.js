@@ -11,13 +11,15 @@ const updateButton = createRow([
     { id: 'update', label: 'Update', style: 'Green' }
 ]);
 
-async function updateCheck(client) {
+async function updateCheck(client)
+{
     const config = readConfig();
     const channel = await client.channels.fetch(config.logsChannel);
     const app = await client.application.fetch();
     const owner = app.owner;
 
-    try {
+    try
+    {
         const [latestHashResult, localHashResult] = await Promise.all([
             axios.get(`${repoURL}/commits/main`, { headers: { Accept: 'application/vnd.github.v3+json' } }),
             execPromise('git rev-parse --short HEAD')
@@ -27,11 +29,13 @@ async function updateCheck(client) {
         const currentHash = localHashResult.stdout.trim();
         const commitMsg = latestHashResult.data.commit.message;
 
-        if (currentHash !== latestHash) {
+        if (currentHash !== latestHash)
+        {
             console.warn(`${client.user.username}: Update Available! Run "git pull" to update!`);
         }
 
-        if (config.latestHash !== latestHash) {
+        if (config.latestHash !== latestHash)
+        {
             await channel.send({
                 content: `<@${owner.id}>`,
                 embeds: [createMsg({ title: 'Update available!', desc: `**Summary:**\n\`${commitMsg}\`` })],
@@ -41,7 +45,8 @@ async function updateCheck(client) {
             writeConfig(config);
         }
     }
-    catch (error) {
+    catch (error)
+    {
         console.error('Error checking for updates:', error);
         await channel.send({ embeds: [createMsg({ title: config.guild, color: 'FF0000', desc: '**Error checking for updates!**' })] });
     }
@@ -49,9 +54,11 @@ async function updateCheck(client) {
 
 module.exports = [{
     name: Events.ClientReady,
-    async execute(client) {
+    async execute(client)
+    {
         await updateCheck(client);
-        setInterval(async() => {
+        setInterval(async() =>
+        {
             await updateCheck(client);
         }, 3600000);
     }

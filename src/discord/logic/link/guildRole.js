@@ -3,7 +3,8 @@ const { writeConfig, toggleConfig, readConfig } = require('../../../helper/utils
 
 const invalidRole = createError('**That\'s not a valid Role ID!**');
 
-async function createButtons() {
+async function createButtons()
+{
     const config = readConfig();
 
     const roleButtons = createRow([
@@ -18,11 +19,14 @@ const back = createRow([
     { id: 'features', label: 'Back', style: 'Gray' }
 ]);
 
-async function guildRoleToggle(interaction) {
+async function guildRoleToggle(interaction)
+{
     const config = readConfig();
 
-    if (!config.features.guildRoleToggle) {
-        if (!interaction.isModalSubmit()) {
+    if (!config.features.guildRoleToggle)
+    {
+        if (!interaction.isModalSubmit())
+        {
             const modal = createForm({
                 id: 'guildRoleToggle',
                 title: 'Set Guild Role',
@@ -39,7 +43,7 @@ async function guildRoleToggle(interaction) {
 
         const input = await interaction.fields.getTextInputValue('setGuildRoleInput');
         const role = interaction.guild.roles.cache.get(input);
-        if (!role) return interaction.reply({ embeds: [invalidRole], ephemeral: true });
+        if (!role) { return interaction.reply({ embeds: [invalidRole], ephemeral: true }); }
 
         config.features.guildRole = input;
         writeConfig(config);

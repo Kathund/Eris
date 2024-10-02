@@ -30,7 +30,8 @@ const back = createRow([
     { id: 'backToSetup', label: 'Back', style: 'Gray' }
 ]);
 
-async function features(interaction) {
+async function features(interaction)
+{
     await interaction.update({ embeds: [featuresMsg], components: [featuresMenu, back] });
 }
 

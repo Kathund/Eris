@@ -5,9 +5,11 @@ const { Errors } = require('hypixel-api-reborn');
 
 const invalidGuild = createError('**Invalid Guild!**');
 
-async function setGuild(interaction) {
+async function setGuild(interaction)
+{
 
-    if (!interaction.isModalSubmit()) {
+    if (!interaction.isModalSubmit())
+    {
         const modal = createForm({
             id: 'setGuildForm',
             title: 'Set Guild',
@@ -24,7 +26,8 @@ async function setGuild(interaction) {
 
     const input = interaction.fields.getTextInputValue('setGuildInput');
 
-    try {
+    try
+    {
         const guild = await getGuild('guild', input);
 
         await interaction.client.user.setActivity(`${input}`, { type: ActivityType.Watching });
@@ -34,8 +37,9 @@ async function setGuild(interaction) {
 
         await interaction.reply({ embeds: [createMsg({ desc: `Guild has been set to **${guild.name}**` })], ephemeral: true });
     }
-    catch (e) {
-        if (e.message === Errors.GUILD_DOES_NOT_EXIST) return interaction.reply({ embeds: [invalidGuild], ephemeral: true });
+    catch (e)
+    {
+        if (e.message === Errors.GUILD_DOES_NOT_EXIST) { return interaction.reply({ embeds: [invalidGuild], ephemeral: true }); }
     }
 }
 

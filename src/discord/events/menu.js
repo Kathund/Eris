@@ -9,22 +9,25 @@ const map =
     createLevelRoles: ['level0', 'level40', 'level80', 'level120', 'level160', 'level200', 'level240', 'level280', 'level320', 'level360', 'level400', 'level440', 'level480']
 };
 
-const menuHandler = async(interaction) => {
+const menuHandler = async(interaction) =>
+{
     const { values } = interaction;
     const selectedValue = values[0];
 
     let logicFunction = Logic[selectedValue];
-    if (!logicFunction) {
+    if (!logicFunction)
+    {
         const mappedLogicKey = Object.keys(map).find(key => map[key].includes(selectedValue));
-        if (mappedLogicKey) logicFunction = Logic[mappedLogicKey];
+        if (mappedLogicKey) { logicFunction = Logic[mappedLogicKey]; }
     }
 
-    if (logicFunction) await logicFunction(interaction);
-    else {
+    if (logicFunction) { await logicFunction(interaction); }
+    else
+    {
         const missingKey = Object.keys(map).find(key => map[key].includes(selectedValue));
 
-        if (missingKey) console.warn(`Logic for ${selectedValue} (${missingKey}) does not exist!`);
-        else console.warn(`Logic for ${selectedValue} does not exist!`);
+        if (missingKey) { console.warn(`Logic for ${selectedValue} (${missingKey}) does not exist!`); }
+        else { console.warn(`Logic for ${selectedValue} does not exist!`); }
     }
 };
 
@@ -32,8 +35,9 @@ module.exports =
 [
     {
         name: Events.InteractionCreate,
-        async execute(interaction) {
-            if (!interaction.isStringSelectMenu()) return;
+        async execute(interaction)
+        {
+            if (!interaction.isStringSelectMenu()) { return; }
             log(interaction);
             await menuHandler(interaction);
         }

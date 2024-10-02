@@ -3,7 +3,8 @@ const { readConfig, writeConfig, toggleConfig } = require('../../../helper/utils
 
 const invalidRole = createError('**That\'s not a valid Role ID!**');
 
-async function createButtons() {
+async function createButtons()
+{
     const config = readConfig();
 
     const roleButtons = createRow([
@@ -18,11 +19,14 @@ const back = createRow([
     { id: 'features', label: 'Back', style: 'Gray' }
 ]);
 
-async function linkRoleToggle(interaction) {
+async function linkRoleToggle(interaction)
+{
     const config = readConfig();
 
-    if (!config.features.linkRoleToggle) {
-        if (!interaction.isModalSubmit()) {
+    if (!config.features.linkRoleToggle)
+    {
+        if (!interaction.isModalSubmit())
+        {
             const modal = createForm({
                 id: 'linkRoleToggle',
                 title: 'Set Link Role',
@@ -39,7 +43,7 @@ async function linkRoleToggle(interaction) {
 
         const input = await interaction.fields.getTextInputValue('setLinkRoleInput');
         const role = interaction.guild.roles.cache.get(input);
-        if (!role) return interaction.reply({ embeds: [invalidRole], ephemeral: true });
+        if (!role) { return interaction.reply({ embeds: [invalidRole], ephemeral: true }); }
 
         config.features.linkRole = input;
         writeConfig(config);

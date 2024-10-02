@@ -13,7 +13,8 @@ const loggingMsg = createMsg({
         '3. `Forms`: Log forms submitted'
 });
 
-async function createButtons() {
+async function createButtons()
+{
     const config = readConfig();
     const logButtons = createRow([
         { id: 'logCommandsToggle', label: 'Log Commands', style: config.logs.commands },
@@ -30,14 +31,18 @@ async function createButtons() {
     return { logButtons, backRow };
 }
 
-async function logging(interaction) {
+async function logging(interaction)
+{
     const config = readConfig();
 
-    if (!config.logsChannel) {
+    if (!config.logsChannel)
+    {
         interaction.reply({ embeds: [missingChannel], ephemeral: true });
     }
-    else {
-        switch (interaction.customId) {
+    else
+    {
+        switch (interaction.customId)
+        {
         case 'logsToggle':
             await toggleConfig('logs.enabled');
             break;

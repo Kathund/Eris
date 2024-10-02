@@ -3,7 +3,8 @@ const { createMsg } = require('../../helper/builder.js');
 const log = require('../../helper/logger.js');
 const { readConfig } = require('../../helper/utils.js');
 
-async function erisError(interaction, error) {
+async function erisError(interaction, error)
+{
     const config = readConfig();
     const channel = await interaction.client.channels.fetch(config.logsChannel);
 
@@ -22,8 +23,10 @@ async function erisError(interaction, error) {
     console.error(error);
 }
 
-const cmdError = (interaction) => {
-    return async(error) => {
+const cmdError = (interaction) =>
+{
+    return async(error) =>
+    {
         await erisError(interaction, error);
 
         console.log(error);
@@ -34,7 +37,8 @@ const cmdError = (interaction) => {
             desc:
 					'Staff has been notified. Thank you for your patience!'
         });
-        if (interaction.replied || interaction.deferred) {
+        if (interaction.replied || interaction.deferred)
+        {
             return interaction.followUp({ embeds: [e] });
         }
         return interaction.reply({ embeds: [e] });
@@ -45,8 +49,9 @@ module.exports =
 [
     {
         name: Events.InteractionCreate,
-        async execute(interaction) {
-            if (!interaction.isChatInputCommand()) return;
+        async execute(interaction)
+        {
+            if (!interaction.isChatInputCommand()) { return; }
             log(interaction);
 
             const command = interaction.client.sc.get(interaction.commandName);

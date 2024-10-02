@@ -4,9 +4,11 @@ const { readConfig, writeConfig } = require('../../../helper/utils.js');
 const invalidRole = createError('**That\'s not a valid role ID!**');
 const noPerms = createError('**You do not have permission to assign that role!**');
 
-async function setWelcomeRole(interaction) {
+async function setWelcomeRole(interaction)
+{
 
-    if (!interaction.isModalSubmit()) {
+    if (!interaction.isModalSubmit())
+    {
         const modal = createForm({
             id: 'setWelcomeRoleForm',
             title: 'Set Welcome Channel',
@@ -23,10 +25,12 @@ async function setWelcomeRole(interaction) {
 
     const input = interaction.fields.getTextInputValue('setWelcomeRoleInput');
     const role = interaction.guild.roles.cache.get(input);
-    if (!role) {
+    if (!role)
+    {
         return interaction.reply({ embeds: [invalidRole], ephemeral: true });
     }
-    if (interaction.member.roles.highest.comparePositionTo(role) <= 0) {
+    if (interaction.member.roles.highest.comparePositionTo(role) <= 0)
+    {
         return interaction.reply({ embeds: [noPerms], ephemeral: true });
     }
     const config = readConfig();

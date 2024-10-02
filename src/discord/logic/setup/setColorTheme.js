@@ -3,9 +3,11 @@ const { readConfig, writeConfig } = require('../../../helper/utils.js');
 
 const invalidHEX = createError('**That\'s not a valid HEX color!**');
 
-async function setColorTheme(interaction) {
+async function setColorTheme(interaction)
+{
 
-    if (!interaction.isModalSubmit()) {
+    if (!interaction.isModalSubmit())
+    {
         const modal = createForm({
             id: 'setColorThemeForm',
             title: 'Set Color Theme',
@@ -22,7 +24,7 @@ async function setColorTheme(interaction) {
 
     const input = interaction.fields.getTextInputValue('setColorThemeInput').trim();
     const hexRegex = /^[0-9a-fA-F]{6}$/;
-    if (!hexRegex.test(input)) return interaction.reply({ embeds: [invalidHEX], ephemeral: true });
+    if (!hexRegex.test(input)) { return interaction.reply({ embeds: [invalidHEX], ephemeral: true }); }
 
     const config = readConfig();
     config.colorTheme = input;

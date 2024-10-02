@@ -6,19 +6,23 @@ const maxLength = 1024;
 
 const invalidThreshold = createError('**Invalid threshold.** Please provide a number (\'**50000**\' or \'**50k**\').');
 
-function splitMsg(array, maxLength) {
+function splitMsg(array, maxLength)
+{
     const result = [];
     let chunk = '';
-    for (const item of array) {
-        if ((chunk + item).length > maxLength) {
+    for (const item of array)
+    {
+        if ((chunk + item).length > maxLength)
+        {
             result.push(chunk);
             chunk = `${item}\n`;
         }
-        else {
+        else
+        {
             chunk += `${item}\n`;
         }
     }
-    if (chunk) result.push(chunk);
+    if (chunk) { result.push(chunk); }
     return result;
 }
 
@@ -31,7 +35,8 @@ module.exports = {
         { type: 'integer', name: 'join_date', desc: 'Filter members who joined more than x days ago' }
     ],
 
-    async execute(interaction) {
+    async execute(interaction)
+    {
         const limitInput = interaction.options.getInteger('days') || 7;
         const thresholdInput = interaction.options.getString('gxp');
         const joinDateInput = interaction.options.getInteger('join_date');
@@ -39,18 +44,22 @@ module.exports = {
         let threshold = null;
         let beforeJoinDate = null;
 
-        if (thresholdInput) {
+        if (thresholdInput)
+        {
             const thresholdMatch = thresholdInput.match(/^(\d+)(k)?$/i);
-            if (thresholdMatch) {
+            if (thresholdMatch)
+            {
                 threshold = parseInt(thresholdMatch[1], 10);
-                if (thresholdMatch[2]) threshold *= 1000;
+                if (thresholdMatch[2]) { threshold *= 1000; }
             }
-            else {
+            else
+            {
                 return interaction.reply({ embeds: [invalidThreshold], ephemeral: true });
             }
         }
 
-        if (joinDateInput !== null) {
+        if (joinDateInput !== null)
+        {
             const currentDate = new Date();
             beforeJoinDate = new Date(currentDate.setDate(currentDate.getDate() - joinDateInput));
         }
@@ -65,8 +74,8 @@ module.exports = {
         const dateLimit = new Date();
         dateLimit.setDate(dateLimit.getDate() - limitInput);
 
-        if (threshold !== null) gxp = gxp.filter(member => member.gxp < threshold);
-        if (beforeJoinDate !== null) gxp = gxp.filter(member => new Date(member.joinDate) < beforeJoinDate);
+        if (threshold !== null) { gxp = gxp.filter(member => member.gxp < threshold); }
+        if (beforeJoinDate !== null) { gxp = gxp.filter(member => new Date(member.joinDate) < beforeJoinDate); }
 
         await success.delete();
 
@@ -78,7 +87,8 @@ module.exports = {
         const formattedJoinDate = joinDateInput !== null ? `- **Joined ${joinDateInput}+ Days Ago**` : '';
         const embedDesc = [formattedDays, formattedThreshold, formattedJoinDate].filter(Boolean).join('\n');
 
-        for (let i = 0; i < chunks.length; i++) {
+        for (let i = 0; i < chunks.length; i++)
+        {
             const chunk = chunks[i];
             const splitLines = chunk.split('\n').filter(line => line.trim());
             const ignList = splitLines.map(line => line.split(' ')[0]).join('\n');

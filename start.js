@@ -2,16 +2,19 @@ const DC = require('./src/discord/DCinit');
 const MC = require('./src/minecraft/MCinit');
 const Mongo = require('./src/mongo/mongoInit');
 
-class Instance {
-    async init() {
+class Instance
+{
+    async init()
+    {
         this.discord = new DC();
-        // this.minecraft = new MC(this.discord.client);
+        this.minecraft = new MC(this.discord.client);
     }
 
-    async start() {
+    async start()
+    {
         await Mongo();
         await this.discord.init();
-        // await this.minecraft.init();
+        await this.minecraft.init();
     }
 }
 
@@ -19,7 +22,8 @@ const instance = new Instance();
 
 module.exports = instance;
 
-if (require.main === module) {
+if (require.main === module)
+{
     instance
         .init()
         .then(() => instance.start())

@@ -48,7 +48,8 @@ const back = createRow([
     { id: 'features', label: 'Back', style: 'Gray' }
 ]);
 
-async function customRoles(interaction) {
+async function customRoles(interaction)
+{
     await interaction.update({ embeds: [customRolesMsg], components: [customRolesMenu, back] });
 }
 

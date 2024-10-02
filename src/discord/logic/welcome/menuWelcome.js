@@ -20,7 +20,8 @@ const welcomeMsg = createMsg({
 		'This is useful if you want members to link before they can access your server.'
 });
 
-async function createButtons() {
+async function createButtons()
+{
     const config = readConfig();
 
     const welcomeMsgButtons = createRow([
@@ -42,12 +43,15 @@ async function createButtons() {
     return { welcomeMsgButtons, welcomeRoleButtons, back };
 }
 
-async function welcome(interaction) {
+async function welcome(interaction)
+{
     const config = await readConfig();
 
-    switch (interaction.customId) {
+    switch (interaction.customId)
+    {
     case 'welcomeMsgToggle':
-        if (!config.features.welcomeChannel) {
+        if (!config.features.welcomeChannel)
+        {
             await interaction.reply({ embeds: [noWelcomeChannel], ephemeral: true });
             return false;
         }
@@ -55,7 +59,8 @@ async function welcome(interaction) {
         break;
 
     case 'welcomeRoleToggle':
-        if (!config.features.welcomeRole) {
+        if (!config.features.welcomeRole)
+        {
             await interaction.reply({ embeds: [noWelcomeRole], ephemeral: true });
             return false;
         }
@@ -63,11 +68,13 @@ async function welcome(interaction) {
         break;
 
     case 'removeRoleOnLink':
-        if (!config.features.welcomeRoleToggle) {
+        if (!config.features.welcomeRoleToggle)
+        {
             await interaction.reply({ embeds: [noWelcomeRole], ephemeral: true });
             return false;
         }
-        if (!config.features.welcomeRole) {
+        if (!config.features.welcomeRole)
+        {
             await interaction.reply({ embeds: [noWelcomeRole], ephemeral: true });
             return false;
         }

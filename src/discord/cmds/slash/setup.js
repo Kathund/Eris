@@ -6,7 +6,8 @@ module.exports =
     desc: 'Bot setup',
     permissions: ['ManageGuild'],
 
-    async execute(interaction) {
+    async execute(interaction)
+    {
         await interaction.reply({ embeds: [setupMsg], components: [setupButtons], ephemeral: true });
     }
 };

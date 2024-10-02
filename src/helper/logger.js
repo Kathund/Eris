@@ -2,7 +2,8 @@ const { createMsg } = require('./builder.js');
 const db = require('../mongo/schemas.js');
 const { readConfig } = require('./utils.js');
 
-async function cmdCounter(command) {
+async function cmdCounter(command)
+{
     await db.Command.findOneAndUpdate(
         { command },
         { $inc: { count: 1 } },
@@ -10,7 +11,8 @@ async function cmdCounter(command) {
     );
 }
 
-async function buttonCounter(button, source) {
+async function buttonCounter(button, source)
+{
     await db.Button.findOneAndUpdate(
         { button },
         { $inc: { count: 1 }, $set: { source } },
@@ -18,17 +20,20 @@ async function buttonCounter(button, source) {
     );
 }
 
-async function createLogMsg(interaction) {
+async function createLogMsg(interaction)
+{
     const config = readConfig();
 
-    if (!config.logs.enabled) return null;
+    if (!config.logs.enabled) { return null; }
 
     let title;
     let desc;
 
-    switch (true) {
+    switch (true)
+    {
     case interaction.isChatInputCommand():
-        if (config.logs.commands) {
+        if (config.logs.commands)
+        {
             const messageId = await interaction.fetchReply().then(reply => reply.id);
             const options = interaction.options.data.map(option =>
                 option.type === 6 ? ` <@${option.value}> ` :
@@ -43,24 +48,27 @@ async function createLogMsg(interaction) {
 						`<@${interaction.user.id}> ran **/${interaction.commandName}** ${optionsString}\n` +
 						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${messageId}`;
         }
-        else return null;
+        else { return null; }
         break;
 
     case interaction.isButton():
-        if (config.logs.buttons) {
+        if (config.logs.buttons)
+        {
             title = 'Button';
             desc =
 						`<@${interaction.user.id}> clicked **${interaction.component.label}**.\n` +
 						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.message.id}`;
         }
-        else return null;
+        else { return null; }
         break;
 
     case interaction.isStringSelectMenu():
-        if (config.logs.menus) {
+        if (config.logs.menus)
+        {
             const selectMenu = interaction.component;
             const selectedValues = interaction.values;
-            const optionLabels = selectedValues.map(value => {
+            const optionLabels = selectedValues.map(value =>
+            {
                 const option = selectMenu.options.find(option => option.value === value);
                 return option ? option.label : value;
             });
@@ -69,17 +77,18 @@ async function createLogMsg(interaction) {
 						`<@${interaction.user.id}> selected **${optionLabels.join(', ')}** from **${interaction.component.placeholder}**\n` +
 						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.message.id}`;
         }
-        else return null;
+        else { return null; }
         break;
 
     case interaction.isModalSubmit():
-        if (config.logs.forms) {
+        if (config.logs.forms)
+        {
             title = 'Form';
             desc =
 						`<@${interaction.user.id}> submitted **${interaction.customId}**\n` +
 						`https://discord.com/channels/${interaction.guildId}/${interaction.channelId}/${interaction.message.id}`;
         }
-        else return null;
+        else { return null; }
         break;
     }
 
@@ -87,16 +96,17 @@ async function createLogMsg(interaction) {
     return createMsg({ icon, title, desc, timestamp: 'relative' });
 }
 
-async function log(interaction) {
-    if (interaction.isChatInputCommand()) await cmdCounter(interaction.commandName);
-    if (interaction.isButton()) await buttonCounter(interaction.component.label, interaction.customId);
+async function log(interaction)
+{
+    if (interaction.isChatInputCommand()) { await cmdCounter(interaction.commandName); }
+    if (interaction.isButton()) { await buttonCounter(interaction.component.label, interaction.customId); }
 
     const config = readConfig();
     const server = config.serverID;
     const guild = await interaction.client.guilds.cache.get(server);
     const channel = await guild.channels.cache.get(config.logsChannel);
     const message = await createLogMsg(interaction);
-    if (message) await channel.send({ embeds: [message] });
+    if (message) { await channel.send({ embeds: [message] }); }
 }
 
 module.exports = log;

@@ -1,9 +1,11 @@
 const { createForm, createMsg } = require('../../../helper/builder.js');
 const { readConfig, writeConfig } = require('../../../helper/utils.js');
 
-async function setWelcomeMsg(interaction) {
+async function setWelcomeMsg(interaction)
+{
 
-    if (!interaction.isModalSubmit()) {
+    if (!interaction.isModalSubmit())
+    {
         const modal = createForm({
             id: 'setwelcomeMsgForm',
             title: 'Set Welcome Msg',

@@ -3,9 +3,11 @@ const { readConfig, writeConfig } = require('../../../helper/utils.js');
 
 const invalidChannel = createError('**That\'s not a valid channel ID!**');
 
-async function setWelcomeChannel(interaction) {
+async function setWelcomeChannel(interaction)
+{
 
-    if (!interaction.isModalSubmit()) {
+    if (!interaction.isModalSubmit())
+    {
         const modal = createForm({
             id: 'setWelcomeChannelForm',
             title: 'Set Welcome Channel',
@@ -22,7 +24,8 @@ async function setWelcomeChannel(interaction) {
 
     const input = interaction.fields.getTextInputValue('setWelcomeChannelInput');
     const channel = await interaction.guild.channels.fetch(input).catch(() => null);
-    if (!channel) {
+    if (!channel)
+    {
         return interaction.reply({ embeds: [invalidChannel], ephemeral: true });
     }
     const config = readConfig();

@@ -5,9 +5,11 @@ const isValidURL = (url) => /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
 
 const invalidURL = createError('**Invalid URL!**\n\nDiscord supports: **.jpg .jpeg .png .gif .webp**');
 
-async function setIcon(interaction) {
+async function setIcon(interaction)
+{
 
-    if (!interaction.isModalSubmit()) {
+    if (!interaction.isModalSubmit())
+    {
         const modal = createForm({
             id: 'setIconForm',
             title: 'Set Icon',
@@ -23,7 +25,7 @@ async function setIcon(interaction) {
     }
 
     const input = interaction.fields.getTextInputValue('setIconInput');
-    if (!isValidURL(input)) return interaction.reply({ embeds: [invalidURL], ephemeral: true });
+    if (!isValidURL(input)) { return interaction.reply({ embeds: [invalidURL], ephemeral: true }); }
 
     const config = readConfig();
     config.icon = input;
