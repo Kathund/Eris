@@ -43,7 +43,7 @@ function createMsg({ color, title, desc, fields, icon, image, footer, footerIcon
     }
 
     return embed;
-};
+}
 
 function createError(error)
 {

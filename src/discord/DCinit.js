@@ -133,7 +133,7 @@ class DC
                     {
                         method: 'POST',
                         headers: {
-                            'Authorization': `Bot ${this.token}`,
+                            Authorization: `Bot ${this.token}`,
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({

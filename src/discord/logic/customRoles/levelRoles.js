@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+ 
 
 const { createMsg, createRow, createForm, createError } = require('../../../helper/builder.js');
 const { readConfig, writeConfig, toggleConfig } = require('../../../helper/utils.js');

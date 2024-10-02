@@ -275,13 +275,11 @@ async function updateRoles(member, player, addLinkRole = false)
             }
         }
         else
-        {
-            if (member.roles.cache.has(config.features.guildRole))
+        if (member.roles.cache.has(config.features.guildRole))
             {
                 await member.roles.remove(config.features.guildRole);
                 removedRoles.push(config.features.guildRole);
             }
-        }
     }
 
     // Assign Guild Ranks Roles

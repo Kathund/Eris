@@ -9,7 +9,7 @@ const errors = (error, stderr) =>
     }
     if (stderr)
     {
-        console.log(`STD Error: ${stderr}`); return;
+        console.log(`STD Error: ${stderr}`); 
     }
 };
 
