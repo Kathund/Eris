@@ -1,7 +1,7 @@
 const { getMsg } = require('./logic/chat.js');
+const { Collection } = require('discord.js');
 const mineflayer = require('mineflayer');
 const fs = require('fs');
-const { Collection } = require('discord.js');
 
 class MC {
   constructor(client) {

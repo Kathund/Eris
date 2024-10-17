@@ -1,5 +1,5 @@
-const { exec } = require('child_process');
 const { createMsg } = require('../../../helper/builder');
+const { exec } = require('child_process');
 
 module.exports = {
   name: 'stop',

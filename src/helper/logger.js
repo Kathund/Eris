@@ -1,6 +1,6 @@
 const { createMsg } = require('./builder.js');
-const db = require('../mongo/schemas.js');
 const { readConfig } = require('./utils.js');
+const db = require('../mongo/schemas.js');
 
 async function cmdCounter(command) {
   await db.Command.findOneAndUpdate({ command }, { $inc: { count: 1 } }, { upsert: true, new: true });

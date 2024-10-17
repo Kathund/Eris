@@ -1,5 +1,5 @@
-const { createForm, createRow, createError } = require('../../../helper/builder.js');
 const { writeConfig, toggleConfig, readConfig } = require('../../../helper/utils.js');
+const { createForm, createRow, createError } = require('../../../helper/builder.js');
 
 const invalidRole = createError("**That's not a valid Role ID!**");
 

@@ -1,8 +1,8 @@
 const { readConfig, readLogic } = require('../../helper/utils.js');
-const { createMsg } = require('../../helper/builder.js');
-const log = require('../../helper/logger.js');
 // eslint-disable-next-line no-unused-vars
 const { Events, BaseInteraction } = require('discord.js');
+const { createMsg } = require('../../helper/builder.js');
+const log = require('../../helper/logger.js');
 
 module.exports = {
   name: Events.InteractionCreate,

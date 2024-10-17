@@ -1,5 +1,4 @@
-const HAPI = require('../../../helper/hapi.js');
-const hypixel = require('./hapi.js');
+const HAPI = require('./hapi.js');
 const axios = require('axios');
 const fs = require('fs');
 
@@ -89,7 +88,7 @@ function getDiscord(player) {
 
 async function getSBLevelHighest(uuid) {
   let highestLevel = 0;
-  const sbProfiles = await hypixel.getSkyblockProfiles(uuid).catch(() => {
+  const sbProfiles = await HAPI.getSkyblockProfiles(uuid).catch(() => {
     return null;
   });
   if (null === sbProfiles) return highestLevel;
@@ -103,7 +102,7 @@ async function getSBLevelHighest(uuid) {
 
 async function getCataHighest(uuid) {
   let highestLevel = 0;
-  const sbProfiles = await hypixel.getSkyblockProfiles(uuid).catch(() => {
+  const sbProfiles = await HAPI.getSkyblockProfiles(uuid).catch(() => {
     return null;
   });
   if (null === sbProfiles) return highestLevel;

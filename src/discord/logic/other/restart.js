@@ -1,12 +1,11 @@
-const { exec } = require('child_process');
-const util = require('util');
-const execPromise = util.promisify(exec);
-const app = require('../../../../start.js');
 const { createMsg } = require('../../../helper/builder.js');
-const axios = require('axios');
 const { readConfig } = require('../../../helper/utils.js');
+const app = require('../../../../start.js');
+const { exec } = require('child_process');
+const axios = require('axios');
+const util = require('util');
 
-const repoURL = 'https://api.github.com/repos/CatboyDark/Eris';
+const execPromise = util.promisify(exec);
 
 async function restart(client) {
   try {
@@ -29,7 +28,9 @@ async function update(interaction) {
 
   try {
     const [latestHashResult, localHashResult] = await Promise.all([
-      axios.get(`${repoURL}/commits/main`, { headers: { Accept: 'application/vnd.github.v3+json' } }),
+      axios.get('https://api.github.com/repos/CatboyDark/Eris/commits/main', {
+        headers: { Accept: 'application/vnd.github.v3+json' }
+      }),
       execPromise('git rev-parse --short HEAD')
     ]);
 

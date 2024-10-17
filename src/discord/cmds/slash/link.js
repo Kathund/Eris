@@ -1,8 +1,8 @@
 const { getDiscord, updateRoles } = require('../../../helper/utils.js');
 const { createMsg, createError } = require('../../../helper/builder.js');
 const { Link } = require('../../../mongo/schemas.js');
+const { Errors } = require('hypixel-api-reborn');
 const HAPI = require('../../../helper/hapi.js');
-const Errors = require('hypixel-api-reborn');
 
 module.exports = {
   name: 'link',

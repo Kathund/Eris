@@ -1,12 +1,13 @@
 const { readConfig, writeConfig } = require('../../../helper/utils.js');
 const { createMsg, createRow } = require('../../../helper/builder.js');
+const { logGXP } = require('../logic/GXP/logGXP.js');
 // eslint-disable-next-line no-unused-vars
 const { Events, Client } = require('discord.js');
 const { exec } = require('child_process');
 const cron = require('node-cron');
 const axios = require('axios');
 const util = require('util');
-const { logGXP } = require('../logic/GXP/logGXP.js');
+
 const execPromise = util.promisify(exec);
 
 /**
