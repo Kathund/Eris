@@ -2,17 +2,15 @@
     Eris
 </h1>
 
-<br />
+A Discord/Minecraft bot for Hypixel Skyblock, built using:
 
-A Discord/Minecraft bot for Hypixel Skyblock, built using: <br />
-
-> [discord.js](https://github.com/discordjs/guide) <br />
+> [discord.js](https://github.com/discordjs/guide)
 >
-> [mineflayer](https://github.com/PrismarineJS/mineflayer) <br />
+> [mineflayer](https://github.com/PrismarineJS/mineflayer)
 >
-> [hypixel-api-reborn](https://github.com/Hypixel-API-Reborn/hypixel-api-reborn) <br /> <br />
+> [hypixel-api-reborn](https://github.com/Hypixel-API-Reborn/hypixel-api-reborn)
 
-<h2>Features (WIP)</h2>
+## Features (WIP)
 
 ### Guild:
 
@@ -25,63 +23,43 @@ A Discord/Minecraft bot for Hypixel Skyblock, built using: <br />
 - CENTRAL verification system
 - Custom Skyblock roles
 - Moderation tools
-- And more! <br />
+- And more!
 
-<h2>How To Setup</h2>
+## How To Setup
 
-### </p>1. Install the necessary dependencies</p>
+### 1. Install the necessary dependencies
 
-    npm install discord.js
+```bash
+  pnpm install
+```
 
-</p> </p>
+### 2. Configure config.json
 
-    npm install mineflayer
+Rename exampleconfig.json → config.json
 
-</p> </p>
-
-    npm install hypixel-api-reborn
-
-</p> </p>
-
-    npm install mongoose
-
-</p> </p>
-
-    npm install node-cron
-
-<br />
- 
-### </p>2. Configure config.json</p>
-
-</p>Rename exampleconfig.json → config.json </p>
-
-> token: Discord Token (https://discord.com/developers/applications) <br />
+> token: Discord Token (https://discord.com/developers/applications)
 >
-> hypixelAPI: Hypixel API Key (https://developer.hypixel.net/) <br />
+> appID: Discord Application ID
 >
-> ign: Minecraft Bot Username <br />
+> hypixelAPI: Hypixel API Key (https://developer.hypixel.net/)
 >
-> <br />
+> ign: Minecraft Bot Username
 
-### </p>3. Run/host the bot </p>
+### 3. Run/host the bot
 
-    node start.js
+```bash
+  node start.js
+```
 
 OR host it use [PM2](https://pm2.keymetrics.io/)
 
-<br />
-
 ### 4. Run /setup to adjust configs and enable features
 
-> Note: You need the Manage Server permission to do this.
-
-<br />
+> [!NOTE] You need the Manage Server permission to do this.
 
 ---
 
 > [!NOTE] This project values minimalism. Contributors will not recieve any credits on the frontend, with the exception
 > of the credits section within the `/help` command.
 
-<br />
-
-Created by CatboyDark on July 11, 2024. <br />
+Created by CatboyDark on July 11, 2024.
