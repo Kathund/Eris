@@ -1,7 +1,14 @@
 const { readConfig } = require('../../helper/utils.js');
-const ignore = JSON.parse(require('fs').readFileSync('ignore.json'));
 
 module.exports = (bot, client) => {
+  const ignore = [
+    'Unknown command.',
+    'A kick occurred in your connection, so you have been routed to limbo!',
+    'disconnect.spam',
+    '/limbo for more information.',
+    'You are currently APPEARING OFFLINE'
+  ];
+
   const config = readConfig();
 
   // Ingame -> Discord
