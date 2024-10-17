@@ -1,12 +1,18 @@
-const { createMsg, createRow, createForm, createError } = require('../../../helper/builder.js');
+const { createMsg, createRow, createForm } = require('../../../helper/builder.js');
 const { getDiscord, updateRoles } = require('../../../helper/utils.js');
 const { Link } = require('../../../mongo/schemas.js');
 const HAPI = require('../../../helper/hapi.js');
 const Errors = require('hypixel-api-reborn');
 
-const notLinked = createError('**Discord is not linked!**\n_ _\nClick on **How To Link** for more info.');
-const noMatch = createError('**Discord does not match!**\n_ _\nClick on **How To Link** for more info.');
-const invalidIGN = createError('**Invalid Username!**');
+const notLinked = createMsg({
+  color: 'Red',
+  desc: '**Discord is not linked!**\n_ _\nClick on **How To Link** for more info.'
+});
+const noMatch = createMsg({
+  color: 'Red',
+  desc: '**Discord does not match!**\n_ _\nClick on **How To Link** for more info.'
+});
+const invalidIGN = createMsg({ color: 'Red', desc: '**Invalid Username!**' });
 
 const linkButtons = createRow([
   { id: 'link', label: 'Link', style: 'Green' },

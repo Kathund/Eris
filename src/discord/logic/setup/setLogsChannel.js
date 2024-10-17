@@ -1,7 +1,7 @@
-const { createForm, createMsg, createError } = require('../../../helper/builder.js');
+const { createForm, createMsg } = require('../../../helper/builder.js');
 const { readConfig, writeConfig } = require('../../../helper/utils.js');
 
-const invalidChannel = createError("**That's not a valid Channel ID!**");
+const invalidChannel = createMsg({ color: 'Red', desc: "**That's not a valid Channel ID!**" });
 
 async function setLogsChannel(interaction) {
   if (!interaction.isModalSubmit()) {

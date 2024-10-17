@@ -1,8 +1,8 @@
-const { createForm, createMsg, createError } = require('../../../helper/builder.js');
+const { createForm, createMsg } = require('../../../helper/builder.js');
 const { readConfig, writeConfig } = require('../../../helper/utils.js');
 
-const invalidRole = createError("**That's not a valid role ID!**");
-const noPerms = createError('**You do not have permission to assign that role!**');
+const invalidRole = createMsg({ color: 'Red', desc: "**That's not a valid role ID!**" });
+const noPerms = createMsg({ color: 'Red', desc: '**You do not have permission to assign that role!**' });
 
 function setWelcomeRole(interaction) {
   if (!interaction.isModalSubmit()) {

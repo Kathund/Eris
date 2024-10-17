@@ -1,11 +1,14 @@
-const { createForm, createMsg, createError } = require('../../../helper/builder.js');
+const { createForm, createMsg } = require('../../../helper/builder.js');
 const { readConfig, writeConfig } = require('../../../helper/utils.js');
 
 function isValidURL(url) {
   return /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
 }
 
-const invalidURL = createError('**Invalid URL!**\n\nDiscord supports: **.jpg .jpeg .png .gif .webp**');
+const invalidURL = createMsg({
+  color: 'Red',
+  desc: '**Invalid URL!**\n\nDiscord supports: **.jpg .jpeg .png .gif .webp**'
+});
 
 async function setIcon(interaction) {
   if (!interaction.isModalSubmit()) {

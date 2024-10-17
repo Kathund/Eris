@@ -1,9 +1,12 @@
-const { createMsg, createError } = require('../../../helper/builder.js');
+const { createMsg } = require('../../../helper/builder.js');
 const { readConfig } = require('../../../helper/utils.js');
 const { getGXP } = require('../../logic/GXP/getGXP.js');
 
 const maxLength = 1024;
-const invalidThreshold = createError("**Invalid threshold.** Please provide a number ('**50000**' or '**50k**').");
+const invalidThreshold = createMsg({
+  color: 'Red',
+  desc: "**Invalid threshold.** Please provide a number ('**50000**' or '**50k**')."
+});
 
 function splitMsg(array, maxLength) {
   const result = [];

@@ -1,7 +1,7 @@
-const { createForm, createRow, createError } = require('../../../helper/builder.js');
 const { readConfig, writeConfig, toggleConfig } = require('../../../helper/utils.js');
+const { createForm, createRow, createMsg } = require('../../../helper/builder.js');
 
-const invalidRole = createError("**That's not a valid Role ID!**");
+const invalidRole = createMsg({ color: 'Red', desc: "**That's not a valid Role ID!**" });
 
 function createButtons() {
   const config = readConfig();

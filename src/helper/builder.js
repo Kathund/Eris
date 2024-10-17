@@ -65,10 +65,6 @@ function createMsg({ color, title, desc, fields, icon, image, footer, footerIcon
   return embed;
 }
 
-function createError(error) {
-  return createMsg({ color: 'FF0000', desc: error });
-}
-
 const styles = {
   Blue: ButtonStyle.Primary,
   Gray: ButtonStyle.Secondary,
@@ -224,7 +220,6 @@ function createSlash({ name, desc, options = [], permissions = [], execute }) {
 
 module.exports = {
   createMsg,
-  createError,
   createRow,
   createForm,
   createSlash

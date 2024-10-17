@@ -1,4 +1,4 @@
-const { createMsg, createError } = require('../../../helper/builder.js');
+const { createMsg } = require('../../../helper/builder.js');
 const { updateRoles } = require('../../../helper/utils.js');
 const { Link } = require('../../../mongo/schemas.js');
 const HAPI = require('../../../helper/hapi.js');
@@ -22,7 +22,7 @@ module.exports = {
       const data = await Link.findOne({ dcid: user }).exec();
       if (!data) {
         return interaction.followUp({
-          embeds: [createError('**You are not linked! Please run /link to link your account!**')],
+          embeds: [createMsg({ color: 'Red', desc: '**You are not linked! Please run /link to link your account!**' })],
           ephemeral: true
         });
       }

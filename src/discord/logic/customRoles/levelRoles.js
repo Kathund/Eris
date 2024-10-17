@@ -1,7 +1,7 @@
-const { createMsg, createRow, createForm, createError } = require('../../../helper/builder.js');
+const { createMsg, createRow, createForm } = require('../../../helper/builder.js');
 const { readConfig, writeConfig, toggleConfig } = require('../../../helper/utils.js');
 
-const invalidRole = createError("**That's not a valid Role ID!**");
+const invalidRole = createMsg({ color: 'Red', desc: "**That's not a valid Role ID!**" });
 
 function createLevelRolesMsg() {
   const config = readConfig();

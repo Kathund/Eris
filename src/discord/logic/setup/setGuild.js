@@ -1,4 +1,4 @@
-const { createForm, createMsg, createError } = require('../../../helper/builder.js');
+const { createForm, createMsg } = require('../../../helper/builder.js');
 const { readConfig, writeConfig } = require('../../../helper/utils.js');
 const { Errors } = require('hypixel-api-reborn');
 const HAPI = require('../../../helper/hapi.js');
@@ -38,7 +38,7 @@ async function setGuild(interaction) {
     });
   } catch (e) {
     if (e.message === Errors.GUILD_DOES_NOT_EXIST) {
-      return interaction.reply({ embeds: [createError('**Invalid Guild!**')], ephemeral: true });
+      return interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**Invalid Guild!**' })], ephemeral: true });
     }
   }
 }

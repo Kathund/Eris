@@ -1,8 +1,8 @@
-const { createMsg, createRow, createForm, createError } = require('../../../helper/builder.js');
+const { createMsg, createRow, createForm } = require('../../../helper/builder.js');
 const { readConfig, writeConfig, toggleConfig } = require('../../../helper/utils.js');
 
-const invalidCata = createError("**That's not a valid Cata level!**");
-const invalidRole = createError("**That's not a valid Role ID!**");
+const invalidCata = createMsg({ color: 'Red', desc: "**That's not a valid Cata level!**" });
+const invalidRole = createMsg({ color: 'Red', desc: "**That's not a valid Role ID!**" });
 
 function createCataRolesMsg() {
   const config = readConfig();
@@ -119,7 +119,9 @@ async function deleteCataRoles(interaction) {
         writeConfig(config);
       } else {
         return interaction.reply({
-          embeds: [createError(`You don't have a role set for **Catacombs Level ${cataRemoveInput}**!`)],
+          embeds: [
+            createMsg({ color: 'Red', desc: `You don't have a role set for **Catacombs Level ${cataRemoveInput}**!` })
+          ],
           ephemeral: true
         });
       }

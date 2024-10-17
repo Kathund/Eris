@@ -1,8 +1,8 @@
-const { createMsg, createRow, createForm, createError } = require('../../../helper/builder.js');
+const { createMsg, createRow, createForm } = require('../../../helper/builder.js');
 const { readConfig, toggleConfig, writeConfig } = require('../../../helper/utils');
 const HAPI = require('../../../helper/hapi.js');
 
-const invalidRole = createError("**That's not a valid Role ID!**");
+const invalidRole = createMsg({ color: 'Red', desc: "**That's not a valid Role ID!**" });
 
 async function getGuildRanks() {
   const config = readConfig();

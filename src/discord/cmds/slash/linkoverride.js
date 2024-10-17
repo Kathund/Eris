@@ -1,4 +1,4 @@
-const { createMsg, createError } = require('../../../helper/builder.js');
+const { createMsg } = require('../../../helper/builder.js');
 const { updateRoles } = require('../../../helper/utils.js');
 const { Link } = require('../../../mongo/schemas.js');
 const { Errors } = require('hypixel-api-reborn');
@@ -66,7 +66,7 @@ module.exports = {
       await interaction.followUp({ embeds: [createMsg({ desc })] });
     } catch (e) {
       if (e.message === Errors.PLAYER_DOES_NOT_EXIST) {
-        return interaction.followUp({ embeds: [createError('**Invalid Username!**')] });
+        return interaction.followUp({ embeds: [createMsg({ color: 'Red', desc: '**Invalid Username!**' })] });
       }
       console.log(e);
     }

@@ -1,4 +1,4 @@
-const { createMsg, createError } = require('../../../helper/builder');
+const { createMsg } = require('../../../helper/builder');
 
 module.exports = {
   name: 'purge',
@@ -22,25 +22,27 @@ module.exports = {
     const count = interaction.options.getInteger('count');
     if (count < 1) {
       return interaction.reply({
-        embeds: [createError('You must purge at least one message!')],
+        embeds: [createMsg({ color: 'Red', desc: 'You must purge at least one message!' })],
         ephemeral: true
       });
     }
     if (count > 100) {
       return interaction.reply({
-        embeds: [createError('You can only purge up to 100 messages!')],
+        embeds: [createMsg({ color: 'Red', desc: 'You can only purge up to 100 messages!' })],
         ephemeral: true
       });
     }
     let messages = await interaction.channel.messages.fetch({ limit: count });
-    if (filter === 'user')
-      {messages = messages.filter((msg) => {
+    if (filter === 'user') {
+      messages = messages.filter((msg) => {
         return !msg.author.bot;
-      });}
-    if (filter === 'bot')
-      {messages = messages.filter((msg) => {
+      });
+    }
+    if (filter === 'bot') {
+      messages = messages.filter((msg) => {
         return msg.author.bot;
-      });}
+      });
+    }
     const now = Date.now();
     messages = messages.filter((msg) => {
       return now - msg.createdTimestamp <= 1209600000;
@@ -59,7 +61,7 @@ module.exports = {
       });
     } else {
       await interaction.reply({
-        embeds: [createError('You cannot purge messages older than 14 days!')],
+        embeds: [createMsg({ color: 'Red', desc: 'You cannot purge messages older than 14 days!' })],
         ephemeral: true
       });
     }

@@ -1,4 +1,4 @@
-const { createMsg, createError } = require('../../../helper/builder.js');
+const { createMsg } = require('../../../helper/builder.js');
 const { readConfig } = require('../../../helper/utils.js');
 const { Link } = require('../../../mongo/schemas.js');
 
@@ -23,7 +23,7 @@ module.exports = {
         }
       }
     } else {
-      await interaction.reply({ embeds: [createError('**You are not linked!**')] });
+      await interaction.reply({ embeds: [createMsg({ color: 'Red', desc: '**You are not linked!**' })] });
     }
   }
 };

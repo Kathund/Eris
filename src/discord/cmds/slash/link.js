@@ -1,5 +1,5 @@
 const { getDiscord, updateRoles } = require('../../../helper/utils.js');
-const { createMsg, createError } = require('../../../helper/builder.js');
+const { createMsg } = require('../../../helper/builder.js');
 const { Link } = require('../../../mongo/schemas.js');
 const { Errors } = require('hypixel-api-reborn');
 const HAPI = require('../../../helper/hapi.js');
@@ -27,10 +27,10 @@ module.exports = {
       const player = await HAPI.getPlayer(input);
       const discord = await getDiscord(player);
       if (!discord) {
-        return interaction.followUp({ embeds: [createError('**Discord is not linked!**')] });
+        return interaction.followUp({ embeds: [createMsg({ color: 'Red', desc: '**Discord is not linked!**' })] });
       }
       if (interaction.user.username !== discord.toLowerCase()) {
-        return interaction.followUp({ embeds: [createError('**Discord does not match!**')] });
+        return interaction.followUp({ embeds: [createMsg({ color: 'Red', desc: '**Discord does not match!**' })] });
       }
       await Link.create({ uuid: player.uuid, dcid: interaction.user.id }).catch((e) => {
         if (e.code === 11000) {
@@ -78,7 +78,7 @@ module.exports = {
       return interaction.followUp({ embeds: [createMsg({ desc })] });
     } catch (e) {
       if (e.message === Errors.PLAYER_DOES_NOT_EXIST) {
-        return interaction.followUp({ embeds: [createError('**Invalid Username!**')] });
+        return interaction.followUp({ embeds: [createMsg({ color: 'Red', desc: '**Invalid Username!**' })] });
       }
       console.log(e);
     }

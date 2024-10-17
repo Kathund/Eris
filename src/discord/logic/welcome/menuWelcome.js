@@ -1,8 +1,8 @@
-const { createMsg, createRow, createError } = require('../../../helper/builder.js');
+const { createMsg, createRow } = require('../../../helper/builder.js');
 const { readConfig, toggleConfig } = require('../../../helper/utils.js');
 
-const noWelcomeChannel = createError('**You need to set a Welcome Channel first!**');
-const noWelcomeRole = createError('**You need to set a Welcome Role first!**');
+const noWelcomeChannel = createMsg({ color: 'Red', desc: '**You need to set a Welcome Channel first!**' });
+const noWelcomeRole = createMsg({ color: 'Red', desc: '**You need to set a Welcome Role first!**' });
 
 const welcomeMsg = createMsg({
   title: 'Welcome',

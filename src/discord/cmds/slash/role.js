@@ -1,4 +1,4 @@
-const { createMsg, createError } = require('../../../helper/builder.js');
+const { createMsg } = require('../../../helper/builder.js');
 
 module.exports = {
   name: 'role',
@@ -58,7 +58,9 @@ module.exports = {
         })
         .join('\n');
       await interaction.followUp({
-        embeds: [createError(`**You do not have permission to manage these roles:**\n\n${noPermRoles}`)]
+        embeds: [
+          createMsg({ color: 'Red', desc: `**You do not have permission to manage these roles:**\n\n${noPermRoles}` })
+        ]
       });
     }
     const roleAdd = validRoles.filter((role) => {

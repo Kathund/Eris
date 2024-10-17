@@ -1,7 +1,7 @@
-const { createForm, createMsg, createError } = require('../../../helper/builder.js');
+const { createForm, createMsg } = require('../../../helper/builder.js');
 const { readConfig, writeConfig } = require('../../../helper/utils.js');
 
-const invalidHEX = createError("**That's not a valid HEX color!**");
+const invalidHEX = createMsg({ color: 'Red', desc: "**That's not a valid HEX color!**" });
 
 function setColorTheme(interaction) {
   if (!interaction.isModalSubmit()) {
