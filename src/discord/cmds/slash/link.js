@@ -14,9 +14,15 @@ module.exports = {
     const input = interaction.options.getString('ign');
     const application = await interaction.client.application.fetch();
     const emojis = await application.emojis.fetch();
-    const check = emojis.find((emoji) => 'check' === emoji.name);
-    const plus = emojis.find((emoji) => 'plus' === emoji.name);
-    const minus = emojis.find((emoji) => 'minus' === emoji.name);
+    const check = emojis.find((emoji) => {
+      return 'check' === emoji.name;
+    });
+    const plus = emojis.find((emoji) => {
+      return 'plus' === emoji.name;
+    });
+    const minus = emojis.find((emoji) => {
+      return 'minus' === emoji.name;
+    });
     try {
       const player = await HAPI.getPlayer(input);
       const discord = await getDiscord(player);
@@ -42,14 +48,30 @@ module.exports = {
       let desc;
       if (addedRoles.length > 0 && removedRoles.length > 0) {
         desc = `${check} **Account linked!**\n_ _\n`;
-        desc += `${addedRoles.map((roleID) => `${plus} <@&${roleID}>`).join('\n')}\n_ _\n`;
-        desc += `${removedRoles.map((roleID) => `${minus} <@&${roleID}>`).join('\n')}`;
+        desc += `${addedRoles
+          .map((roleID) => {
+            return `${plus} <@&${roleID}>`;
+          })
+          .join('\n')}\n_ _\n`;
+        desc += `${removedRoles
+          .map((roleID) => {
+            return `${minus} <@&${roleID}>`;
+          })
+          .join('\n')}`;
       } else if (addedRoles.length > 0) {
         desc = `${check} **Account linked!**\n_ _\n`;
-        desc += `${addedRoles.map((roleID) => `${plus} <@&${roleID}>`).join('\n')}\n_ _`;
+        desc += `${addedRoles
+          .map((roleID) => {
+            return `${plus} <@&${roleID}>`;
+          })
+          .join('\n')}\n_ _`;
       } else if (removedRoles.length > 0) {
         desc = `${check} **Account linked!**\n_ _\n`;
-        desc += `${removedRoles.map((roleID) => `${minus} <@&${roleID}>`).join('\n')}\n_ _`;
+        desc += `${removedRoles
+          .map((roleID) => {
+            return `${minus} <@&${roleID}>`;
+          })
+          .join('\n')}\n_ _`;
       } else {
         desc = `${check} **Account linked!**`;
       }

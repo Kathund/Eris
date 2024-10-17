@@ -11,7 +11,9 @@ function createCataRolesMsg() {
   }
 
   const roleList = Object.entries(config.cataRoles)
-    .map(([level, roleID]) => `<@&${roleID}> - **Cata ${level}**`)
+    .map(([level, roleID]) => {
+      return `<@&${roleID}> - **Cata ${level}**`;
+    })
     .join('\n');
 
   return createMsg({

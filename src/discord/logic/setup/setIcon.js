@@ -1,7 +1,9 @@
 const { createForm, createMsg, createError } = require('../../../helper/builder.js');
 const { readConfig, writeConfig } = require('../../../helper/utils.js');
 
-const isValidURL = (url) => /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
+function isValidURL(url) {
+  return /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
+}
 
 const invalidURL = createError('**Invalid URL!**\n\nDiscord supports: **.jpg .jpeg .png .gif .webp**');
 
@@ -24,9 +26,7 @@ async function setIcon(interaction) {
   }
 
   const input = interaction.fields.getTextInputValue('setIconInput');
-  if (!isValidURL(input)) {
-    return interaction.reply({ embeds: [invalidURL], ephemeral: true });
-  }
+  if (!isValidURL(input)) return interaction.reply({ embeds: [invalidURL], ephemeral: true });
 
   const config = readConfig();
   config.icon = input;

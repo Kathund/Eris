@@ -1,6 +1,6 @@
 const { readConfig } = require('../../helper/utils.js');
 
-module.exports = (bot, client) => {
+function bridgeMessage(bot, client) {
   const ignore = [
     'Unknown command.',
     'A kick occurred in your connection, so you have been routed to limbo!',
@@ -18,7 +18,9 @@ module.exports = (bot, client) => {
     }
 
     const content = message.toString().trim();
-    const isIgnored = ignore.some((ignoredPhrase) => content.startsWith(ignoredPhrase));
+    const isIgnored = ignore.some((ignoredPhrase) => {
+      return content.startsWith(ignoredPhrase);
+    });
     if (content.length < 1 || isIgnored) {
       return;
     }
@@ -51,4 +53,6 @@ module.exports = (bot, client) => {
       bot.chat(content);
     }
   });
-};
+}
+
+module.exports = bridgeMessage;

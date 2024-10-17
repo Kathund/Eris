@@ -47,8 +47,12 @@ function scanDir(dir) {
 
 function readLogic() {
   const foundModules = scanDir('./src/discord/logic')
-    .filter((module) => module.endsWith('.js'))
-    .map((path) => path.split('src/discord/logic/')[1]);
+    .filter((module) => {
+      return module.endsWith('.js');
+    })
+    .map((path) => {
+      return path.split('src/discord/logic/')[1];
+    });
 
   const modules = {};
   foundModules.forEach((modulePath) => {
@@ -77,13 +81,18 @@ async function getIGN(userData, uuid) {
 }
 
 function getDiscord(player) {
-  const discord = player.socialMedia.find((media) => media.id === 'DISCORD') || null;
+  const discord =
+    player.socialMedia.find((media) => {
+      return media.id === 'DISCORD';
+    }) || null;
   return discord ? discord.link.toLowerCase() : null;
 }
 
 async function getSBLevelHighest(uuid) {
   let highestLevel = 0;
-  const sbProfiles = await hypixel.getSkyblockProfiles(uuid).catch(() => null);
+  const sbProfiles = await hypixel.getSkyblockProfiles(uuid).catch(() => {
+    return null;
+  });
   if (null === sbProfiles) return highestLevel;
   sbProfiles.forEach((profile) => {
     const currentLevel = profile.me?.level || 0;
@@ -95,7 +104,9 @@ async function getSBLevelHighest(uuid) {
 
 async function getCataHighest(uuid) {
   let highestLevel = 0;
-  const sbProfiles = await hypixel.getSkyblockProfiles(uuid).catch(() => null);
+  const sbProfiles = await hypixel.getSkyblockProfiles(uuid).catch(() => {
+    return null;
+  });
   if (null === sbProfiles) return highestLevel;
   sbProfiles.forEach((profile) => {
     const currentLevel = profile.me?.dungeons.experience.level || 0;
@@ -138,9 +149,14 @@ async function updateRoles(member, uuid, addLinkRole = false) {
   // Assign Guild Ranks Roles
   if (config.features.guildRankRolesToggle) {
     if (guild && guild.name === config.guild) {
-      const gmember = guild.members.find((member) => member.uuid === uuid);
+      const gmember = guild.members.find((member) => {
+        return member.uuid === uuid;
+      });
       const rank = gmember.rank;
-      const rankIndex = guild.ranks.findIndex((r) => r.name === rank) + 1;
+      const rankIndex =
+        guild.ranks.findIndex((r) => {
+          return r.name === rank;
+        }) + 1;
 
       const toggleKey = `guildRank${rankIndex}Toggle`;
       const roleKey = `guildRank${rankIndex}Role`;

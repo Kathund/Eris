@@ -25,7 +25,9 @@ module.exports = {
         icon: member.user.displayAvatarURL()
       });
       await welcomeChannel.send({ embeds: [msg] });
-      await welcomeChannel.send(`${member}`).then((message) => message.delete());
+      await welcomeChannel.send(`${member}`).then((message) => {
+        return message.delete();
+      });
     }
   }
 };

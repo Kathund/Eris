@@ -16,8 +16,12 @@ module.exports = {
   async execute(interaction) {
     const application = await interaction.client.application.fetch();
     const emojis = await application.emojis.fetch();
-    const plus = emojis.find((emoji) => 'plus' === emoji.name);
-    const minus = emojis.find((emoji) => 'minus' === emoji.name);
+    const plus = emojis.find((emoji) => {
+      return 'plus' === emoji.name;
+    });
+    const minus = emojis.find((emoji) => {
+      return 'minus' === emoji.name;
+    });
     await interaction.deferReply();
     const user = interaction.options.getMember('user');
     const roles = [
@@ -27,22 +31,42 @@ module.exports = {
       interaction.options.getRole('role___'),
       interaction.options.getRole('role____'),
       interaction.options.getRole('role_____')
-    ].filter((role) => role);
-    const uniqueRoles = Array.from(new Set(roles.map((role) => role.id))).map((id) =>
-      roles.find((role) => role.id === id)
-    );
-    const noPerms = uniqueRoles.filter(
-      (role) => role.managed || interaction.member.roles.highest.comparePositionTo(role) <= 0
-    );
-    const validRoles = uniqueRoles.filter((role) => !noPerms.includes(role));
+    ].filter((role) => {
+      return role;
+    });
+    const uniqueRoles = Array.from(
+      new Set(
+        roles.map((role) => {
+          return role.id;
+        })
+      )
+    ).map((id) => {
+      return roles.find((role) => {
+        return role.id === id;
+      });
+    });
+    const noPerms = uniqueRoles.filter((role) => {
+      return role.managed || interaction.member.roles.highest.comparePositionTo(role) <= 0;
+    });
+    const validRoles = uniqueRoles.filter((role) => {
+      return !noPerms.includes(role);
+    });
     if (noPerms.length > 0) {
-      const noPermRoles = noPerms.map((role) => `- <@&${role.id}>`).join('\n');
+      const noPermRoles = noPerms
+        .map((role) => {
+          return `- <@&${role.id}>`;
+        })
+        .join('\n');
       await interaction.followUp({
         embeds: [createError(`**You do not have permission to manage these roles:**\n\n${noPermRoles}`)]
       });
     }
-    const roleAdd = validRoles.filter((role) => !user.roles.cache.has(role.id));
-    const roleRemove = validRoles.filter((role) => user.roles.cache.has(role.id));
+    const roleAdd = validRoles.filter((role) => {
+      return !user.roles.cache.has(role.id);
+    });
+    const roleRemove = validRoles.filter((role) => {
+      return user.roles.cache.has(role.id);
+    });
     if (roleRemove.length > 0) {
       await user.roles.remove(roleRemove);
     }
@@ -50,8 +74,22 @@ module.exports = {
       await user.roles.add(roleAdd);
     }
     if (roleAdd.length > 0 || roleRemove.length > 0) {
-      const addedRoles = roleAdd.length > 0 ? roleAdd.map((role) => `${plus} <@&${role.id}>`).join('\n') : '';
-      const removedRoles = roleRemove.length > 0 ? roleRemove.map((role) => `${minus} <@&${role.id}>`).join('\n') : '';
+      const addedRoles =
+        roleAdd.length > 0
+          ? roleAdd
+              .map((role) => {
+                return `${plus} <@&${role.id}>`;
+              })
+              .join('\n')
+          : '';
+      const removedRoles =
+        roleRemove.length > 0
+          ? roleRemove
+              .map((role) => {
+                return `${minus} <@&${role.id}>`;
+              })
+              .join('\n')
+          : '';
       const desc = [addedRoles, removedRoles].filter(Boolean).join('\n\n');
       const embed = createMsg({ desc: `${user} **Updated roles!**\n\n${desc}` });
       await interaction.followUp({ embeds: [embed] });

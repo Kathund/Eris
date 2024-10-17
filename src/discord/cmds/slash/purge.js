@@ -33,10 +33,18 @@ module.exports = {
       });
     }
     let messages = await interaction.channel.messages.fetch({ limit: count });
-    if (filter === 'user') messages = messages.filter((msg) => !msg.author.bot);
-    if (filter === 'bot') messages = messages.filter((msg) => msg.author.bot);
+    if (filter === 'user')
+      {messages = messages.filter((msg) => {
+        return !msg.author.bot;
+      });}
+    if (filter === 'bot')
+      {messages = messages.filter((msg) => {
+        return msg.author.bot;
+      });}
     const now = Date.now();
-    messages = messages.filter((msg) => now - msg.createdTimestamp <= 1209600000);
+    messages = messages.filter((msg) => {
+      return now - msg.createdTimestamp <= 1209600000;
+    });
     if (messages.size > 0) {
       await interaction.channel.bulkDelete(messages, true);
       await interaction.reply({

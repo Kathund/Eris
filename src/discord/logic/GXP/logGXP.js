@@ -9,10 +9,7 @@ function formatDate(date) {
 
 function getToday() {
   const date = new Date();
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
-  return `${year}${month}${day}`;
+  return `${date.getFullYear()}${(date.getMonth() + 1).padStart(2, '0')}${date.getDate().padStart(2, '0')}`;
 }
 
 async function logGXP() {
@@ -24,11 +21,15 @@ async function logGXP() {
 
     for (const { uuid, expHistory } of guild.members) {
       const entries = expHistory
-        .filter(({ day }) => formatDate(day) !== today)
-        .map(({ day, exp }) => ({
-          date: formatDate(day),
-          gxp: exp
-        }));
+        .filter(({ day }) => {
+          return formatDate(day) !== today;
+        })
+        .map(({ day, exp }) => {
+          return {
+            date: formatDate(day),
+            gxp: exp
+          };
+        });
 
       for (const entry of entries) {
         const updateResult = await GXP.updateOne(

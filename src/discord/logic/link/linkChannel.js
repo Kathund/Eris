@@ -22,14 +22,18 @@ async function setLinkChannel(interaction) {
   }
 
   const input = await interaction.fields.getTextInputValue('setLinkChannelInput');
-  const channel = await interaction.guild.channels.fetch(input).catch(() => null);
+  const channel = await interaction.guild.channels.fetch(input).catch(() => {
+    return null;
+  });
   if (!channel) {
     return interaction.reply({ embeds: [invalidChannel], ephemeral: true });
   }
 
   const application = await interaction.client.application.fetch();
   const emojis = await application.emojis.fetch();
-  const check = emojis.find((emoji) => 'check' === emoji.name);
+  const check = emojis.find((emoji) => {
+    return 'check' === emoji.name;
+  });
   await channel.send({
     embeds: [
       createMsg({

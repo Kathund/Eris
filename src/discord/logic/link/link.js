@@ -34,9 +34,15 @@ async function link(interaction) {
 
   const application = await interaction.client.application.fetch();
   const emojis = await application.emojis.fetch();
-  const check = emojis.find((emoji) => 'check' === emoji.name);
-  const plus = emojis.find((emoji) => 'plus' === emoji.name);
-  const minus = emojis.find((emoji) => 'minus' === emoji.name);
+  const check = emojis.find((emoji) => {
+    return 'check' === emoji.name;
+  });
+  const plus = emojis.find((emoji) => {
+    return 'plus' === emoji.name;
+  });
+  const minus = emojis.find((emoji) => {
+    return 'minus' === emoji.name;
+  });
 
   await interaction.deferReply({ ephemeral: true });
 
@@ -67,14 +73,30 @@ async function link(interaction) {
     let desc;
     if (addedRoles.length > 0 && removedRoles.length > 0) {
       desc = `${check} **Account linked!**\n_ _\n`;
-      desc += `${addedRoles.map((roleId) => `${plus} <@&${roleId}>`).join('\n')}\n_ _\n`;
-      desc += `${removedRoles.map((roleId) => `${minus} <@&${roleId}>`).join('\n')}`;
+      desc += `${addedRoles
+        .map((roleId) => {
+          return `${plus} <@&${roleId}>`;
+        })
+        .join('\n')}\n_ _\n`;
+      desc += `${removedRoles
+        .map((roleId) => {
+          return `${minus} <@&${roleId}>`;
+        })
+        .join('\n')}`;
     } else if (addedRoles.length > 0) {
       desc = `${check} **Account linked!**\n_ _\n`;
-      desc += `${addedRoles.map((roleId) => `${plus} <@&${roleId}>`).join('\n')}\n_ _`;
+      desc += `${addedRoles
+        .map((roleId) => {
+          return `${plus} <@&${roleId}>`;
+        })
+        .join('\n')}\n_ _`;
     } else if (removedRoles.length > 0) {
       desc = `${check} **Account linked!**\n_ _\n`;
-      desc += `${removedRoles.map((roleId) => `${minus} <@&${roleId}>`).join('\n')}\n_ _`;
+      desc += `${removedRoles
+        .map((roleId) => {
+          return `${minus} <@&${roleId}>`;
+        })
+        .join('\n')}\n_ _`;
     } else {
       desc = `${check} **Account linked!**`;
     }

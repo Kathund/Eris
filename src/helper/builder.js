@@ -15,9 +15,9 @@ const {
 } = require('discord.js');
 const { readConfig } = require('./utils');
 
-const getTimestamp = (date) => {
+function getTimestamp(date) {
   return Math.floor(date.getTime() / 1000);
-};
+}
 
 function createMsg({ color, title, desc, fields, icon, image, footer, footerIcon, timestamp }) {
   const embed = new EmbedBuilder();
@@ -91,9 +91,9 @@ function createButtons({ id, label, style, url }) {
 function createSelectMenu({ id, placeholder, options }) {
   const selectMenu = new StringSelectMenuBuilder().setCustomId(id).setPlaceholder(placeholder);
 
-  const selectMenuOptions = options.map(({ value, label, desc }) =>
-    new StringSelectMenuOptionBuilder().setValue(value).setLabel(label).setDescription(desc)
-  );
+  const selectMenuOptions = options.map(({ value, label, desc }) => {
+    return new StringSelectMenuOptionBuilder().setValue(value).setLabel(label).setDescription(desc);
+  });
 
   return selectMenu.addOptions(selectMenuOptions);
 }
@@ -136,7 +136,9 @@ function createForm({ id, title, components }) {
       .setRequired(component.required);
 
     if (Array.isArray(component.length) && component.length.length === 2) {
-      const [minLength, maxLength] = component.length.map((num) => parseInt(num, 10));
+      const [minLength, maxLength] = component.length.map((num) => {
+        return parseInt(num, 10);
+      });
       if (isNaN(minLength) || isNaN(maxLength)) {
         throw new Error(`Invalid length values: ${component.length}`);
       }
@@ -163,13 +165,19 @@ function createSlash({ name, desc, options = [], permissions = [], execute }) {
 
     switch (type) {
       case 'user':
-        commandBuilder.addUserOption((o) => o.setName(name).setDescription(desc).setRequired(isRequired));
+        commandBuilder.addUserOption((o) => {
+          return o.setName(name).setDescription(desc).setRequired(isRequired);
+        });
         break;
       case 'role':
-        commandBuilder.addRoleOption((o) => o.setName(name).setDescription(desc).setRequired(isRequired));
+        commandBuilder.addRoleOption((o) => {
+          return o.setName(name).setDescription(desc).setRequired(isRequired);
+        });
         break;
       case 'channel':
-        commandBuilder.addChannelOption((o) => o.setName(name).setDescription(desc).setRequired(isRequired));
+        commandBuilder.addChannelOption((o) => {
+          return o.setName(name).setDescription(desc).setRequired(isRequired);
+        });
         break;
       case 'string':
         commandBuilder.addStringOption((o) => {

@@ -26,7 +26,9 @@ class MC {
   initCmds() {
     this.cList = new Map();
     const cDir = path.join(__dirname, 'cmds');
-    const cFiles = fs.readdirSync(cDir).filter((file) => file.endsWith('.js'));
+    const cFiles = fs.readdirSync(cDir).filter((file) => {
+      return file.endsWith('.js');
+    });
 
     for (const c of cFiles) {
       const cmd = require(path.join(cDir, c));
@@ -55,7 +57,9 @@ class MC {
 
   initFeatures() {
     const fDir = path.join(__dirname, 'features');
-    const fFiles = fs.readdirSync(fDir).filter((file) => file.endsWith('.js'));
+    const fFiles = fs.readdirSync(fDir).filter((file) => {
+      return file.endsWith('.js');
+    });
 
     for (const f of fFiles) {
       const feature = require(path.join(fDir, f));
@@ -70,7 +74,9 @@ class MC {
   initLogic() {
     this.Logic = {};
     const lDir = path.join(__dirname, 'logic');
-    const lFiles = fs.readdirSync(lDir).filter((file) => file.endsWith('.js'));
+    const lFiles = fs.readdirSync(lDir).filter((file) => {
+      return file.endsWith('.js');
+    });
 
     for (const file of lFiles) {
       const logicModule = require(path.join(lDir, file));

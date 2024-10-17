@@ -27,7 +27,9 @@ class DiscordManager {
   }
 
   async initCmds() {
-    const slashCommandFiles = fs.readdirSync('./src/discord/cmds/slash').filter((file) => file.endsWith('.js'));
+    const slashCommandFiles = fs.readdirSync('./src/discord/cmds/slash').filter((file) => {
+      return file.endsWith('.js');
+    });
     if (slashCommandFiles.length === 0) throw new Error('Slash Commands are missing');
     const slashCommands = [];
     slashCommandFiles.forEach((slashCommandPath) => {
@@ -42,7 +44,9 @@ class DiscordManager {
       body: slashCommands
     });
 
-    const plainCommandFiles = fs.readdirSync('./src/discord/cmds/plain').filter((file) => file.endsWith('.js'));
+    const plainCommandFiles = fs.readdirSync('./src/discord/cmds/plain').filter((file) => {
+      return file.endsWith('.js');
+    });
     if (plainCommandFiles.length === 0) throw new Error('Plain Commands are missing');
     plainCommandFiles.forEach((plainCommandPath) => {
       const cmdData = require(plainCommandPath);
@@ -62,24 +66,32 @@ class DiscordManager {
   }
 
   initEvents() {
-    const eventFiles = fs.readdirSync('./src/discord/events').filter((file) => file.endsWith('.js'));
+    const eventFiles = fs.readdirSync('./src/discord/events').filter((file) => {
+      return file.endsWith('.js');
+    });
     if (eventFiles.length === 0) throw new Error('Events are missing');
     eventFiles.forEach((eventPath) => {
       const event = require(eventPath);
-      this.client.on(event.name, (...args) => event.execute(...args));
+      this.client.on(event.name, (...args) => {
+        return event.execute(...args);
+      });
     });
   }
 
   async initEmojis() {
     const application = await this.client.application.fetch();
     const currentEmojis = await application.emojis.fetch();
-    const emojiFiles = fs.readdirSync('./assets/emojis').filter((file) => file.endsWith('.png'));
+    const emojiFiles = fs.readdirSync('./assets/emojis').filter((file) => {
+      return file.endsWith('.png');
+    });
     if (emojiFiles.length === 0) throw new Error('Emojis are missing');
     emojiFiles.forEach((emoji) => {
       if (currentEmojis.has(emoji.split('.')[0])) return;
       application.emojis
         .create({ attachment: `./assets/emojis/${emoji}`, name: emoji.split('.')[0] })
-        .then((emoji) => console.log(`Uploaded ${emoji.name} Emoji`))
+        .then((emoji) => {
+          return console.log(`Uploaded ${emoji.name} Emoji`);
+        })
         .catch(console.error);
     });
   }

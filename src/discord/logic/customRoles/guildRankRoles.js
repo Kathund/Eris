@@ -8,7 +8,9 @@ async function getGuildRanks() {
   const config = readConfig();
   const guild = await HAPI.getGuild('name', config.guild);
 
-  const guildRanks = guild.ranks.map((rank) => rank.name);
+  const guildRanks = guild.ranks.map((rank) => {
+    return rank.name;
+  });
   return guildRanks;
 }
 

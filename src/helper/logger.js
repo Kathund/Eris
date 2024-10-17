@@ -23,9 +23,13 @@ function createLogMsg(interaction) {
   switch (true) {
     case interaction.isChatInputCommand():
       if (config.logs.commands) {
-        const options = interaction.options.data.map((option) =>
-          option.type === 6 ? ` <@${option.value}> ` : option.type === 8 ? ` <@&${option.value}> ` : ` ${option.value} `
-        );
+        const options = interaction.options.data.map((option) => {
+          return option.type === 6
+            ? ` <@${option.value}> `
+            : option.type === 8
+              ? ` <@&${option.value}> `
+              : ` ${option.value} `;
+        });
 
         const optionsString = options.length > 0 ? `**[**${options.join('**,** ')}**]**` : '';
 
@@ -54,7 +58,9 @@ function createLogMsg(interaction) {
         const selectMenu = interaction.component;
         const selectedValues = interaction.values;
         const optionLabels = selectedValues.map((value) => {
-          const option = selectMenu.options.find((option) => option.value === value);
+          const option = selectMenu.options.find((option) => {
+            return option.value === value;
+          });
           return option ? option.label : value;
         });
         title = 'Menu';

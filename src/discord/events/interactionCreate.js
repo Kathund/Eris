@@ -68,7 +68,9 @@ module.exports = {
       if (buttonHandler[interaction.customId]) {
         await buttonHandler[interaction.customId](interaction);
       } else {
-        const exceptionLogic = Object.keys(buttonMap).find((logic) => buttonMap[logic].includes(interaction.customId));
+        const exceptionLogic = Object.keys(buttonMap).find((logic) => {
+          return buttonMap[logic].includes(interaction.customId);
+        });
         if (!exceptionLogic) return console.warn(`Logic for ${interaction.customId} does not exist!`);
         if (!Logic[exceptionLogic]) {
           console.warn(`Logic for ${interaction.customId} (${exceptionLogic}) does not exist!`);
@@ -114,7 +116,9 @@ module.exports = {
       if (handler) {
         await handler(interaction);
       } else {
-        const exceptionLogic = Object.keys(formMap).find((logic) => formMap[logic].includes(interaction.customId));
+        const exceptionLogic = Object.keys(formMap).find((logic) => {
+          return formMap[logic].includes(interaction.customId);
+        });
 
         if (exceptionLogic) {
           console.warn(`Logic for ${interaction.customId} (${exceptionLogic}) does not exist!`);
@@ -144,12 +148,17 @@ module.exports = {
       const selectedValue = interaction.values[0];
       let logicFunction = Logic?.[selectedValue] || null;
       if (!logicFunction) {
-        const mappedLogicKey = Object.keys(menuMap).find((key) => menuMap[key].includes(selectedValue));
+        const mappedLogicKey = Object.keys(menuMap).find((key) => {
+          return menuMap[key].includes(selectedValue);
+        });
         if (mappedLogicKey) logicFunction = Logic?.[mappedLogicKey] || null;
       }
 
       if (!logicFunction) {
-        const missingKey = Object.keys(menuMap).find((key) => menuMap[key].includes(selectedValue)) || undefined;
+        const missingKey =
+          Object.keys(menuMap).find((key) => {
+            return menuMap[key].includes(selectedValue);
+          }) || undefined;
         if (missingKey) {
           console.warn(`Logic for ${selectedValue} (${missingKey}) does not exist!`);
         } else {

@@ -61,13 +61,19 @@ module.exports = {
     const dateLimit = new Date();
     dateLimit.setDate(dateLimit.getDate() - limitInput);
     if (threshold !== null) {
-      gxp = gxp.filter((member) => member.gxp < threshold);
+      gxp = gxp.filter((member) => {
+        return member.gxp < threshold;
+      });
     }
     if (beforeJoinDate !== null) {
-      gxp = gxp.filter((member) => new Date(member.joinDate) < beforeJoinDate);
+      gxp = gxp.filter((member) => {
+        return new Date(member.joinDate) < beforeJoinDate;
+      });
     }
     await success.delete();
-    const ignGxpPairs = gxp.map((member) => `${member.ign.replace(/_/g, '\\_')} ${member.gxp}`);
+    const ignGxpPairs = gxp.map((member) => {
+      return `${member.ign.replace(/_/g, '\\_')} ${member.gxp}`;
+    });
     const chunks = splitMsg(ignGxpPairs, maxLength);
     const formattedDays = `- **Last ${limitInput} Days**`;
     const formattedThreshold = thresholdInput !== null ? `- **Below ${Math.floor(threshold / 1000)}k**` : '';
@@ -75,9 +81,19 @@ module.exports = {
     const embedDesc = [formattedDays, formattedThreshold, formattedJoinDate].filter(Boolean).join('\n');
     for (let i = 0; i < chunks.length; i++) {
       const chunk = chunks[i];
-      const splitLines = chunk.split('\n').filter((line) => line.trim());
-      const ignList = splitLines.map((line) => line.split(' ')[0]).join('\n');
-      const gxpList = splitLines.map((line) => line.split(' ')[1]).join('\n');
+      const splitLines = chunk.split('\n').filter((line) => {
+        return line.trim();
+      });
+      const ignList = splitLines
+        .map((line) => {
+          return line.split(' ')[0];
+        })
+        .join('\n');
+      const gxpList = splitLines
+        .map((line) => {
+          return line.split(' ')[1];
+        })
+        .join('\n');
       const embed = createMsg({
         title: i === 0 ? 'GXP List' : undefined,
         desc: i === 0 ? embedDesc : undefined,

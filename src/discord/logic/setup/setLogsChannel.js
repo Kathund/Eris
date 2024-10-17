@@ -22,7 +22,9 @@ async function setLogsChannel(interaction) {
   }
 
   const input = interaction.fields.getTextInputValue('setLogsChannelInput');
-  const channel = await interaction.guild.channels.fetch(input).catch(() => null);
+  const channel = await interaction.guild.channels.fetch(input).catch(() => {
+    return null;
+  });
   if (!channel) {
     return interaction.reply({ embeds: [invalidChannel], ephemeral: true });
   }

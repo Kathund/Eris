@@ -54,7 +54,9 @@ module.exports = {
    */
   async execute(client) {
     await updateCheck(client);
-    cron.schedule('0 */1 * * *', async () => await updateCheck(client));
+    cron.schedule('0 */1 * * *', async () => {
+      return await updateCheck(client);
+    });
 
     // 00:01 PST every day
     cron.schedule(

@@ -18,9 +18,15 @@ module.exports = {
     const member = interaction.guild.members.cache.get(user.id);
     const application = await interaction.client.application.fetch();
     const emojis = await application.emojis.fetch();
-    const check = emojis.find((emoji) => 'check' === emoji.name);
-    const plus = emojis.find((emoji) => 'plus' === emoji.name);
-    const minus = emojis.find((emoji) => 'minus' === emoji.name);
+    const check = emojis.find((emoji) => {
+      return 'check' === emoji.name;
+    });
+    const plus = emojis.find((emoji) => {
+      return 'plus' === emoji.name;
+    });
+    const minus = emojis.find((emoji) => {
+      return 'minus' === emoji.name;
+    });
     await interaction.deferReply();
     try {
       const player = await HAPI.getPlayer(interaction.options.getString('ign'));
@@ -33,12 +39,28 @@ module.exports = {
       const { addedRoles, removedRoles } = await updateRoles(member, player.uuid, true);
       let roleDesc = '';
       if (addedRoles.length > 0 && removedRoles.length > 0) {
-        roleDesc = `\n\n${addedRoles.map((roleID) => `${plus} <@&${roleID}>`).join('\n')}\n_ _\n`;
-        roleDesc += `${removedRoles.map((roleID) => `${minus} <@&${roleID}>`).join('\n')}`;
+        roleDesc = `\n\n${addedRoles
+          .map((roleID) => {
+            return `${plus} <@&${roleID}>`;
+          })
+          .join('\n')}\n_ _\n`;
+        roleDesc += `${removedRoles
+          .map((roleID) => {
+            return `${minus} <@&${roleID}>`;
+          })
+          .join('\n')}`;
       } else if (addedRoles.length > 0) {
-        roleDesc = `\n\n${addedRoles.map((roleID) => `${plus} <@&${roleID}>`).join('\n')}\n_ _`;
+        roleDesc = `\n\n${addedRoles
+          .map((roleID) => {
+            return `${plus} <@&${roleID}>`;
+          })
+          .join('\n')}\n_ _`;
       } else if (removedRoles.length > 0) {
-        roleDesc = `\n\n${removedRoles.map((roleID) => `${minus} <@&${roleID}>`).join('\n')}\n_ _`;
+        roleDesc = `\n\n${removedRoles
+          .map((roleID) => {
+            return `${minus} <@&${roleID}>`;
+          })
+          .join('\n')}\n_ _`;
       }
       const desc = `${check} **Successfully linked ${user} to ${player.nickname}**${roleDesc}`;
       await interaction.followUp({ embeds: [createMsg({ desc })] });

@@ -15,8 +15,12 @@ async function getGXP(client) {
     const { uuid, joinedAt } = member;
     const gxpData = await GXP.findOne({ uuid });
     if (gxpData) {
-      const recentEntries = gxpData.entries.filter((entry) => entry.date >= timeLimit);
-      const totalGXP = recentEntries.reduce((sum, entry) => sum + entry.gxp, 0);
+      const recentEntries = gxpData.entries.filter((entry) => {
+        return entry.date >= timeLimit;
+      });
+      const totalGXP = recentEntries.reduce((sum, entry) => {
+        return sum + entry.gxp;
+      }, 0);
 
       const user = await getIGN({ username: app.owner.username, id: app.owner.id }, uuid);
       membersData.push({
@@ -28,7 +32,9 @@ async function getGXP(client) {
     }
   }
 
-  membersData.sort((a, b) => b.gxp - a.gxp);
+  membersData.sort((a, b) => {
+    return b.gxp - a.gxp;
+  });
   return membersData;
 }
 

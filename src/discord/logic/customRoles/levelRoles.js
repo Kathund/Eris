@@ -6,8 +6,12 @@ const invalidRole = createError("**That's not a valid Role ID!**");
 function createLevelRolesMsg() {
   const config = readConfig();
   const roles = Object.entries(config.levelRoles)
-    .filter(([level, roleID]) => roleID)
-    .map(([level, roleID]) => `<@&${roleID}> - **Level ${level}**`)
+    .filter(([level, roleID]) => {
+      return roleID;
+    })
+    .map(([level, roleID]) => {
+      return `<@&${roleID}> - **Level ${level}**`;
+    })
     .join('\n');
 
   if (roles.length === 0) {
@@ -54,11 +58,13 @@ const row1 = createRow([
   {
     id: 'levelRolesMenu',
     placeholder: 'Add roles',
-    options: levels.map((option) => ({
-      value: option.id,
-      label: option.label,
-      desc: option.desc
-    }))
+    options: levels.map((option) => {
+      return {
+        value: option.id,
+        label: option.label,
+        desc: option.desc
+      };
+    })
   }
 ]);
 
@@ -72,7 +78,9 @@ async function createLevelRoles(interaction) {
   if (interaction.isStringSelectMenu()) {
     const selectedOption = interaction.values[0];
 
-    const level = levels.find((l) => l.id === selectedOption);
+    const level = levels.find((l) => {
+      return l.id === selectedOption;
+    });
 
     const modal = createForm({
       id: `${selectedOption}Form`,

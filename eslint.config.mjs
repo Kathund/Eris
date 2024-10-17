@@ -21,6 +21,7 @@ export default [
       'prefer-const': ['warn', { destructuring: 'all' }],
       'no-unused-vars': ['error', { args: 'none' }],
       curly: ['warn', 'multi-line', 'consistent'],
+      'arrow-body-style': ['error', 'always'],
       'logical-assignment-operators': 'warn',
       'no-template-curly-in-string': 'error',
       'quote-props': ['error', 'as-needed'],
