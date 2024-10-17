@@ -1,8 +1,7 @@
-const { PermissionFlagsBits } = require('discord.js');
 const { createMsg, createRow } = require('../../../helper/builder.js');
-const fs = require('fs');
-const path = require('path');
 const { readConfig } = require('../../../helper/utils.js');
+const { PermissionFlagsBits } = require('discord.js');
+const fs = require('fs');
 
 function getPermissionName(permissionBit) {
   return Object.keys(PermissionFlagsBits).find((key) => {
@@ -17,7 +16,6 @@ function hasPermission(permissions, userPermissions = false, hasAdminPermission 
     const permBit = PermissionFlagsBits[perm];
     return acc | BigInt(permBit);
   }, BigInt(0));
-
   return (userPermissions & permissionBits) === permissionBits;
 }
 
@@ -43,25 +41,19 @@ function formatCommands(commands) {
 
 function createHelpMsg(interaction) {
   const config = readConfig();
-  const cmdsDirectory = path.join(__dirname, '..', '..', 'cmds', 'slash');
-
   const cmds = fs
-    .readdirSync(cmdsDirectory)
+    .readdirSync('./src/discord/slash')
     .filter((file) => {
       return file.endsWith('.js');
     })
     .map((file) => {
-      return require(path.join(cmdsDirectory, file));
+      return require(`./src/discord/slash/${file}`);
     })
     .filter((command) => {
       return command && command.name && command.desc;
     });
 
   const userPermissions = BigInt(interaction.member.permissions.bitfield);
-
-  const nonList = cmds.filter((cmd) => {
-    return !cmd.permissions || cmd.permissions.length === 0;
-  });
   const staffList = cmds.filter((cmd) => {
     return (
       cmd.permissions &&
@@ -73,35 +65,41 @@ function createHelpMsg(interaction) {
       )
     );
   });
-  const nonCommands = `**Commands**\n${formatCommands(nonList)}`;
-  const staffCommands = staffList.length > 0 ? `\n\n**Staff Commands**\n${formatCommands(staffList)}` : '';
+
+  const nonCommands = `**Commands**\n${formatCommands(
+    cmds.filter((cmd) => {
+      return !cmd.permissions || cmd.permissions.length === 0;
+    })
+  )}`;
 
   return createMsg({
     icon: config.icon,
     title: config.guild,
-    desc: `${nonCommands}${staffCommands}`,
+    desc: `${nonCommands}${staffList.length > 0 ? `\n\n**Staff Commands**\n${formatCommands(staffList)}` : ''}`,
     footer: 'Created by @CatboyDark',
     footerIcon: 'https://i.imgur.com/4lpd01s.png'
   });
 }
 
-const helpButtons = createRow([
-  { id: 'MCcmds', label: 'Ingame Commands', style: 'Green' },
-  { id: 'credits', label: 'Credits', style: 'Blue' },
-  { id: 'support', label: 'Support', style: 'Blue' },
-  { label: 'GitHub', url: 'https://github.com/CatboyDark/Eris' }
-]);
-
 async function cmds(interaction) {
-  const embed = await createHelpMsg(interaction);
+  const embed = createHelpMsg(interaction);
+  const replyData = {
+    embeds: [embed],
+    components: [
+      createRow([
+        { id: 'MCcmds', label: 'Ingame Commands', style: 'Green' },
+        { id: 'credits', label: 'Credits', style: 'Blue' },
+        { id: 'support', label: 'Support', style: 'Blue' },
+        { label: 'GitHub', url: 'https://github.com/CatboyDark/Eris' }
+      ])
+    ]
+  };
 
-  if (interaction.isCommand()) {
-    await interaction.reply({ embeds: [embed], components: [helpButtons] });
-  } else if (interaction.isButton()) {
-    await interaction.update({ embeds: [embed], components: [helpButtons] });
+  if (interaction.isButton()) {
+    await interaction.update(replyData);
+  } else {
+    await interaction.reply(replyData);
   }
 }
 
-module.exports = {
-  cmds
-};
+module.exports = { cmds };

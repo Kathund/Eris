@@ -1,7 +1,6 @@
 const HAPI = require('../../../helper/hapi.js');
 const hypixel = require('./hapi.js');
 const axios = require('axios');
-const path = require('path');
 const fs = require('fs');
 
 function readConfig() {
@@ -34,7 +33,7 @@ function scanDir(dir) {
 
   const items = fs.readdirSync(dir);
   items.forEach((item) => {
-    const fullPath = path.join(dir, item);
+    const fullPath = `${dir}/${item}`;
     if (fs.statSync(fullPath).isDirectory()) {
       files = files.concat(scanDir(fullPath));
     } else {

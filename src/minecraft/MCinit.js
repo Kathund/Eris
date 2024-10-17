@@ -1,7 +1,7 @@
-const mineflayer = require('mineflayer');
-const path = require('path');
-const fs = require('fs');
 const { getMsg } = require('./logic/chat.js');
+const mineflayer = require('mineflayer');
+const fs = require('fs');
+const { Collection } = require('discord.js');
 
 class MC {
   constructor(client) {
@@ -16,24 +16,23 @@ class MC {
     this.bot = mineflayer.createBot(this.instance);
   }
 
-  async init() {
-    await this.initCmds();
-    await this.initFeatures();
-    await this.initLogic();
+  init() {
+    this.initCmds();
+    this.initFeatures();
+    this.initLogic();
     this.initEvents();
   }
 
   initCmds() {
-    this.cList = new Map();
-    const cDir = path.join(__dirname, 'cmds');
-    const cFiles = fs.readdirSync(cDir).filter((file) => {
+    this.commandList = new Collection();
+    const commandFiles = fs.readdirSync('./src/minecraft/cmds').filter((file) => {
       return file.endsWith('.js');
     });
 
-    for (const c of cFiles) {
-      const cmd = require(path.join(cDir, c));
+    for (const command of commandFiles) {
+      const cmd = require(`./src/minecraft/cmds/${command}`);
       if (cmd.command) {
-        this.cList.set(cmd.command.toLowerCase(), cmd);
+        this.commandList.set(cmd.command.toLowerCase(), cmd);
       }
     }
 
@@ -45,8 +44,8 @@ class MC {
       const [commandName, ...args] = content.split(/ +/);
       const command = commandName.toLowerCase();
 
-      if (this.cList.has(command)) {
-        const cmd = this.cList.get(command);
+      if (this.commandList.has(command)) {
+        const cmd = this.commandList.get(command);
         if (cmd.chat.includes(chat) || (chat === 'staff' && cmd.chat.includes('guild'))) {
           const msg = { chat, rank, guildRank, sender, content, args };
           cmd.execute(this.client, msg);
@@ -56,30 +55,29 @@ class MC {
   }
 
   initFeatures() {
-    const fDir = path.join(__dirname, 'features');
-    const fFiles = fs.readdirSync(fDir).filter((file) => {
+    const featuresFiles = fs.readdirSync('./src/minecraft/features').filter((file) => {
       return file.endsWith('.js');
     });
 
-    for (const f of fFiles) {
-      const feature = require(path.join(fDir, f));
+    for (const featureFile of featuresFiles) {
+      const feature = require(`./src/minecraft/features/${featureFile}`);
       if (typeof feature === 'function') {
         feature(this.bot, this.client);
       } else {
-        console.error(`Feature at ${fDir}/${f} is not a function.`);
+        console.error(`Feature at ./src/minecraft/features/${featureFile} is not a function.`);
       }
     }
   }
 
   initLogic() {
     this.Logic = {};
-    const lDir = path.join(__dirname, 'logic');
-    const lFiles = fs.readdirSync(lDir).filter((file) => {
+    const logicDir = './src/minecraft/logic';
+    const logicFiles = fs.readdirSync(logicDir).filter((file) => {
       return file.endsWith('.js');
     });
 
-    for (const file of lFiles) {
-      const logicModule = require(path.join(lDir, file));
+    for (const file of logicFiles) {
+      const logicModule = `./src/minecraft/logic/${file}`;
       if (typeof logicModule === 'object' && logicModule !== null) {
         Object.assign(this.Logic, logicModule);
       } else {
