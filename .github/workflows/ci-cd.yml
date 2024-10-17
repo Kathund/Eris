@@ -1,45 +1,77 @@
-name: CI/CD (20.x)
+name: 'CI/CD'
 
 on:
   push:
     paths:
       - src/**
+  workflow_dispatch:
   pull_request:
 
 env:
-  NODE_VERSION: '20.x'
+  NODE_VERSION: '20'
 
 jobs:
-  es-lint:
+  pnpm:
+    name: install dependencies (pnpm)
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
 
       - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
       - name: Install node dependencies
-        run: npm i
-
-      - name: es-lint
-        run: npm run eslint:check
+        run: pnpm i
 
   prettier:
+    name: check linting (prettier)
+    needs: [pnpm]
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
 
       - name: Use Node.js ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
       - name: Install node dependencies
-        run: npm i
+        run: pnpm i
 
-      - name: prettier
-        run: npm run prettier:check
+      - name: Check prettier
+        run: pnpm prettier:check
+
+  eslint:
+    name: check linting (eslint)
+    needs: [pnpm]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install node dependencies
+        run: pnpm i
+
+      - name: Check eslint
+        run: pnpm eslint:check
